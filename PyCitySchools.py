@@ -3,7 +3,7 @@
 # %%
 # Add the Pandas dependency.
 import pandas as pd
-
+#import formula as df
 
 # %%
 # Files to load
@@ -83,6 +83,44 @@ passing_math = school_data_complete_df["math_score"] >= 70
 #passing_reading = school_data_complete_df["reading_score"] >= 70
 passing_math.head()
 
+#%%
+# Calculate the total budget.
+total_budget = school_data_df["budget"].sum()
+total_budget
+#%%
+# Calculate the average reading score.
+average_reading_score = school_data_complete_df["reading_score"].mean()
+average_reading_score
+#%%
+# Calculate the average math score.
+average_math_score = school_data_complete_df["math_score"].mean()
+average_math_score
+#%%
+passing_math = school_data_complete_df["math_score"] >= 70
+passing_reading = school_data_complete_df["reading_score"] >= 70
+#%%
+# Get all the students who are passing math in a new DataFrame.
+passing_math = school_data_complete_df[school_data_complete_df["math_score"] >= 70]
+passing_math.head()
+#%%
+# Get all the students who are passing english in a new DataFrame.
+passing_reading = school_data_complete_df[school_data_complete_df["reading_score"] >= 70]
+passing_reading.head()
+#%%
+# Calculate the number of students passing math.
+passing_math_count = passing_math["student_name"].count()
+passing_math_count
+# Calculate the percent that passed math.
+passing_math_percentage = passing_math_count / float(student_count["student_name"]) * 100
+passing_math_percentage
+#%%
+# Calculate the number of students passing reading.
+passing_reading_count = passing_reading["student_name"].count()
+# Calculate the percent that passed reading.
+passing_reading_percentage = passing_reading_count / float(student_count["student_name"]) * 100
+#%%
+# Calculate the overall passing percentage.
+overall_passing_percentage = (passing_math_percentage + passing_reading_percentage ) / 2
 
 # %%
 # Adding a list of values with keys to create a new DataFrame.
@@ -98,4 +136,35 @@ district_summary_df = pd.DataFrame(
 district_summary_df
 
 
+#%%
+# Format the columns.
+district_summary_df["Average Math Score"] = district_summary_df["Average Math Score"].map("{:.1f}".format)
 
+district_summary_df["Average Reading Score"] = district_summary_df["Average Reading Score"].map("{:.1f}".format)
+
+district_summary_df["% Passing Math"] = district_summary_df["% Passing Math"].map("{:.0f}".format)
+
+district_summary_df["% Passing Reading"] = district_summary_df["% Passing Reading"].map("{:.0f}".format)
+
+district_summary_df["% Overall Passing"] = district_summary_df["% Overall Passing"].map("{:.0f}".format)
+
+district_summary_df
+
+# Reorder the columns in the order you want them to appear.
+new_column_order = ["Total Students","Total Schools", "Total Budget","Average Math Score", "Average Reading Score", "% Passing Math", "% Passing Reading", "% Overall Passing"]
+# Assign district summary df the new column order.
+district_summary_df = district_summary_df[new_column_order]
+district_summary_df
+
+
+# %%
+# Define a function that calculates the percentage of students that passed both # math and reading and prints the passing percentage to the output when the
+# function is called.
+def passing_math_percent1(pass_math_count, student_count):
+    return pass_math_count / float(student_count) * 100
+#%%
+# Call the function.
+#passing_math_percent = passing_math_percent1(passing_math_count, total_student_count)
+
+# %%
+district_summary_df
