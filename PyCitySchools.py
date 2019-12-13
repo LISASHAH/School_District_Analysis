@@ -1,7 +1,4 @@
-# To add a new cell, type '# %%'
-# To add a new markdown cell, type '# %% [markdown]'
-# %%
-# Add the Pandas dependency.
+#%%
 import pandas as pd
 #import formula as df
 
@@ -166,5 +163,89 @@ def passing_math_percent1(pass_math_count, student_count):
 # Call the function.
 #passing_math_percent = passing_math_percent1(passing_math_count, total_student_count)
 
+per_school_type = school_data_df.set_index(["school_name"])["type"]
+
 # %%
-district_summary_df
+df = pd.DataFrame(per_school_type)
+df
+
+# %%
+#get student count per school
+per_school_count = school_data_df.set_index(["school_name"])["size"]
+per_school_count
+
+# %%
+#Calculate total student count per school
+per_school_counts = school_data_complete_df["school_name"].value_counts()
+per_school_counts
+#%%
+#Calculate the total budget
+per_school_budget = school_data_df.set_index(["school_name"])["budget"]
+per_school_budget
+school_data_df
+
+#%%
+per_school_capita = (per_school_budget / per_school_counts)
+per_school_capita
+# %%
+per_school_math = school_data_complete_df.groupby(["school_name"]).mean()["math_score"]
+per_school_math
+# %%
+per_school_reading = school_data_complete_df.groupby(["school_name"]).mean()["reading_score"]
+per_school_reading
+
+#%%
+# Calculate the passing scores by creating a filtered DataFrame.
+per_school_passing_math = school_data_complete_df[(school_data_complete_df["math_score"] >= 70)]
+
+per_school_passing_reading = school_data_complete_df[(school_data_complete_df["reading_score"] >= 70)]
+
+
+
+# %%
+# Calculate the number of students passing math and passing reading by school.
+per_school_passing_math = per_school_passing_math.groupby(["school_name"]).count()["student_name"]
+
+per_school_passing_reading = per_school_passing_reading.groupby(["school_name"]).count()["student_name"]
+
+# %%
+# Calculate the percentage of passing math and reading scores per school.
+per_school_passing_math = per_school_passing_math / per_school_counts * 100
+
+per_school_passing_reading = per_school_passing_reading / per_school_counts * 100
+
+# %%
+# Calculate the overall passing percentage.
+per_overall_passing_percentage = (per_school_passing_math + per_school_passing_reading ) / 2
+per_overall_passing_percentage
+# %%
+# Adding a list of values with keys to create a new DataFrame.
+per_school_summary_df = pd.DataFrame({
+             "School Type": per_school_type,
+             "Total Students": per_school_counts,
+             "Total School Budget": per_school_budget,
+             "Per Student Budget": per_school_capita,
+             "Average Math Score": per_school_math,
+           "Average Reading Score": per_school_reading,
+           "% Passing Math": per_school_passing_math,
+           "% Passing Reading": per_school_passing_reading,
+           "% Overall Passing": per_overall_passing_percentage})
+per_school_summary_df.head()
+
+# %%
+# Format the Total School Budget and the Per Student Budget columns.
+per_school_summary_df["Total School Budget"] = per_school_summary_df["Total School Budget"].map("${:,.2f}".format)
+per_school_summary_df["Per Student Budget"] = per_school_summary_df["Per Student Budget"].map("${:,.2f}".format)
+# Display the data frame
+per_school_summary_df.head()
+
+# %%
+# Reorder the columns in the order you want them to appear.
+# Assign district summary df the new column order.
+per_school_summary_df = per_school_summary_df.reindex(columns=["School Type", "Total Students", "Total School Budget", "Per School Budget", "Average Math Score", "Average Reading Score", "% Passing Math", "% Passing Reading", "% Overall Passing"])
+per_school_summary_df.head()
+# %%
+
+
+# %%
+
