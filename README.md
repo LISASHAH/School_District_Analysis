@@ -1,5 +1,10 @@
 # School_District_Analysis
-##Analysis from Challenge
+<br>
+output screens and Analysis.docx has the below analysis and output screenshots.
+<br>The PyCityChallenge.ipynb has the logic from module as well as the one from challenge. Top code is the module code and later is the challenge code and output
+
+
+<br><b>Analysis from Challenge</b>
 <br>Q. How is the district summary affected?
 <br>At school district level the overall impact on Math and English was not as significant. The percentage passing went down by around 1%. 
 <br>Q. How is the school summary affected? 
